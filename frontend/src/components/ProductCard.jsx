@@ -1,10 +1,13 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Star, ShoppingCart, Heart, Check } from "lucide-react";
 import { useCart } from "../context/CartContext";
+import { useAuth } from "../context/AuthContext";
 
 export default function ProductCard({ product }) {
   const { addToCart, toggleWishlist, isInWishlist } = useCart();
+  const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
   const [justAdded, setJustAdded] = useState(false);
 
   const isSaved = isInWishlist(product._id);
@@ -12,6 +15,15 @@ export default function ProductCard({ product }) {
   const handleAddToCart = (e) => {
     e.preventDefault();
     e.stopPropagation();
+    if (!isAuthenticated) {
+      navigate("/auth", {
+        state: {
+          from: { pathname: "/" },
+          message: "Please sign in with your student ID (23501a05xx@edukart.com) to add items to your cart"
+        }
+      });
+      return;
+    }
     addToCart(product, 1);
     setJustAdded(true);
     setTimeout(() => setJustAdded(false), 1500);
@@ -20,6 +32,15 @@ export default function ProductCard({ product }) {
   const handleWishlistToggle = (e) => {
     e.preventDefault();
     e.stopPropagation();
+    if (!isAuthenticated) {
+      navigate("/auth", {
+        state: {
+          from: { pathname: "/" },
+          message: "Please sign in with your student ID (23501a05xx@edukart.com) to save items to your wishlist"
+        }
+      });
+      return;
+    }
     toggleWishlist(product);
   };
 

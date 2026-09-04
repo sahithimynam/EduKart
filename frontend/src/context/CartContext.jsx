@@ -74,11 +74,18 @@ export function CartProvider({ children }) {
           }
         })
         .catch(() => {});
+    } else {
+      setCart([]);
+      setWishlist([]);
     }
   }, [isAuthenticated]);
 
   // Cart operations
   const addToCart = (product, qty = 1) => {
+    if (!isAuthenticated) {
+      showToast("Please sign in with your student ID to add items to cart", "error");
+      return false;
+    }
     setCart((prev) => {
       const existing = prev.find((item) => item.product._id === product._id);
       if (existing) {
@@ -91,6 +98,7 @@ export function CartProvider({ children }) {
       return [...prev, { product, qty }];
     });
     showToast(`Added "${product.title}" to cart!`);
+    return true;
   };
 
   const removeFromCart = (productId) => {
@@ -121,24 +129,25 @@ export function CartProvider({ children }) {
   };
 
   const toggleWishlist = async (product) => {
+    if (!isAuthenticated) {
+      showToast("Please sign in with your student ID to save items to wishlist", "error");
+      return false;
+    }
     const isSaved = isInWishlist(product._id);
     if (isSaved) {
       setWishlist((prev) => prev.filter((item) => (item._id || item) !== product._id));
       showToast(`Removed "${product.title}" from wishlist`, "info");
-      if (isAuthenticated) {
-        try {
-          await api.wishlist.remove(product._id);
-        } catch {}
-      }
+      try {
+        await api.wishlist.remove(product._id);
+      } catch {}
     } else {
       setWishlist((prev) => [...prev, product]);
       showToast(`Saved "${product.title}" to wishlist!`);
-      if (isAuthenticated) {
-        try {
-          await api.wishlist.add(product._id);
-        } catch {}
-      }
+      try {
+        await api.wishlist.add(product._id);
+      } catch {}
     }
+    return true;
   };
 
   // Pricing calculations

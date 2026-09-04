@@ -14,12 +14,14 @@ import {
 } from "lucide-react";
 import { api } from "../services/api";
 import { useCart } from "../context/CartContext";
+import { useAuth } from "../context/AuthContext";
 import ProductCard from "../components/ProductCard";
 
 export default function ProductDetailPage() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { addToCart, toggleWishlist, isInWishlist } = useCart();
+  const { isAuthenticated } = useAuth();
 
   const [product, setProduct] = useState(null);
   const [related, setRelated] = useState([]);
@@ -69,14 +71,45 @@ export default function ProductDetailPage() {
   const isSaved = isInWishlist(product._id);
 
   const handleAddToCart = () => {
+    if (!isAuthenticated) {
+      navigate("/auth", {
+        state: {
+          from: { pathname: `/product/${product._id}` },
+          message: "Please sign in with your student ID (23501a05xx@edukart.com) to add items to your cart"
+        }
+      });
+      return;
+    }
     addToCart(product, qty);
     setAdded(true);
     setTimeout(() => setAdded(false), 1500);
   };
 
   const handleBuyNow = () => {
+    if (!isAuthenticated) {
+      navigate("/auth", {
+        state: {
+          from: { pathname: `/product/${product._id}` },
+          message: "Please sign in with your student ID (23501a05xx@edukart.com) to checkout"
+        }
+      });
+      return;
+    }
     addToCart(product, qty);
     navigate("/checkout");
+  };
+
+  const handleWishlistToggle = () => {
+    if (!isAuthenticated) {
+      navigate("/auth", {
+        state: {
+          from: { pathname: `/product/${product._id}` },
+          message: "Please sign in with your student ID (23501a05xx@edukart.com) to save items to your wishlist"
+        }
+      });
+      return;
+    }
+    toggleWishlist(product);
   };
 
   const discountPercent =
@@ -108,7 +141,7 @@ export default function ProductDetailPage() {
               className="max-h-full max-w-full object-contain drop-shadow-md transition-transform duration-300 hover:scale-105"
             />
             <button
-              onClick={() => toggleWishlist(product)}
+              onClick={handleWishlistToggle}
               className={`absolute top-4 right-4 p-2.5 rounded-full backdrop-blur-md transition shadow-md ${
                 isSaved ? "bg-rose-50 text-rose-600" : "bg-white/80 text-slate-600 hover:text-rose-600 hover:bg-white"
               }`}

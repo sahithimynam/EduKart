@@ -394,8 +394,8 @@ export async function seedDatabase() {
   const adminPassword = await bcrypt.hash("admin123", 10);
 
   const student = await User.create({
-    name: "Demo Student",
-    email: "student@edukart.com",
+    name: "Student (23501A0501)",
+    email: "23501a0501@edukart.com",
     password: studentPassword,
     role: "user",
     address: "Room 402, Block B, Campus Hostel",

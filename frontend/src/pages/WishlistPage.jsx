@@ -1,10 +1,33 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Heart, ShoppingCart, Trash2, ArrowRight, Star } from "lucide-react";
+import { Heart, ShoppingCart, Trash2, ArrowRight, Star, Lock } from "lucide-react";
 import { useCart } from "../context/CartContext";
+import { useAuth } from "../context/AuthContext";
 
 export default function WishlistPage() {
   const { wishlist, toggleWishlist, addToCart } = useCart();
+  const { isAuthenticated } = useAuth();
+
+  if (!isAuthenticated) {
+    return (
+      <div className="bg-white rounded-3xl border border-slate-200 p-12 text-center max-w-md mx-auto space-y-4 my-12">
+        <div className="w-16 h-16 rounded-2xl bg-rose-50 text-rose-500 flex items-center justify-center mx-auto">
+          <Lock className="w-8 h-8" />
+        </div>
+        <h3 className="text-lg font-bold text-slate-900">Sign In Required</h3>
+        <p className="text-xs text-slate-500 leading-relaxed">
+          Please sign in with your student ID (23501a05xx@edukart.com) to save and view items in your wishlist.
+        </p>
+        <Link
+          to="/auth"
+          state={{ from: { pathname: "/wishlist" } }}
+          className="inline-flex items-center gap-1.5 px-5 py-2.5 bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs rounded-xl shadow-md transition"
+        >
+          Sign In / Register <ArrowRight className="w-4 h-4" />
+        </Link>
+      </div>
+    );
+  }
 
   const handleMoveToCart = (product) => {
     addToCart(product, 1);
@@ -61,11 +84,11 @@ export default function WishlistPage() {
                 key={product._id}
                 className="bg-white rounded-2xl border border-slate-200/80 shadow-xs flex flex-col overflow-hidden hover:border-brand-300 transition"
               >
-                <div className="relative aspect-4/3 bg-slate-100">
+                <div className="relative h-48 bg-slate-50 flex items-center justify-center p-3 border-b border-slate-100">
                   <img
                     src={product.img}
                     alt={product.title}
-                    className="w-full h-full object-cover"
+                    className="max-h-full max-w-full object-contain drop-shadow-sm"
                   />
                   <button
                     onClick={() => toggleWishlist(product)}

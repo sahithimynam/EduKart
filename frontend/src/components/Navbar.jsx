@@ -82,12 +82,13 @@ export default function Navbar({ searchQuery, setSearchQuery }) {
           <div className="flex items-center gap-2 sm:gap-4">
             {/* Wishlist Link */}
             <Link
-              to="/wishlist"
+              to={isAuthenticated ? "/wishlist" : "/auth"}
+              state={!isAuthenticated ? { from: { pathname: "/wishlist" }, message: "Please sign in with your student ID (23501a05xx@edukart.com) to view your saved wishlist" } : undefined}
               className="relative p-2 rounded-lg text-slate-600 hover:text-brand-600 hover:bg-slate-100 transition"
               title="My Wishlist"
             >
               <Heart className="w-5 h-5" />
-              {wishlist.length > 0 && (
+              {isAuthenticated && wishlist.length > 0 && (
                 <span className="absolute -top-1 -right-1 bg-rose-500 text-white text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center">
                   {wishlist.length}
                 </span>
@@ -96,12 +97,13 @@ export default function Navbar({ searchQuery, setSearchQuery }) {
 
             {/* Cart Link */}
             <Link
-              to="/cart"
+              to={isAuthenticated ? "/cart" : "/auth"}
+              state={!isAuthenticated ? { from: { pathname: "/cart" }, message: "Please sign in with your student ID (23501a05xx@edukart.com) to access your shopping cart" } : undefined}
               className="relative flex items-center gap-2 p-2 sm:px-3 sm:py-2 rounded-lg text-slate-600 hover:text-brand-600 hover:bg-slate-100 transition font-medium text-sm"
               title="Shopping Cart"
             >
               <ShoppingCart className="w-5 h-5" />
-              {totalItems > 0 && (
+              {isAuthenticated && totalItems > 0 && (
                 <span className="bg-brand-600 text-white text-xs font-bold rounded-full px-1.5 py-0.5 min-w-[20px] text-center">
                   {totalItems}
                 </span>
@@ -193,10 +195,10 @@ export default function Navbar({ searchQuery, setSearchQuery }) {
                   <button
                     onClick={() => handleQuickDemo("user")}
                     className="flex items-center gap-1 text-xs font-semibold px-2.5 py-1.5 bg-brand-50 hover:bg-brand-100 text-brand-700 rounded-lg border border-brand-200 transition"
-                    title="1-Click Login as Demo Student"
+                    title="1-Click Login as Demo Student (23501a0501)"
                   >
                     <Sparkles className="w-3.5 h-3.5 text-brand-600" />
-                    Demo Student
+                    Demo Student (0501)
                   </button>
                   <button
                     onClick={() => handleQuickDemo("admin")}

@@ -12,8 +12,10 @@ import {
   XCircle
 } from "lucide-react";
 import { useCart } from "../context/CartContext";
+import { useAuth } from "../context/AuthContext";
 
 export default function CartPage() {
+  const { isAuthenticated } = useAuth();
   const {
     cart,
     removeFromCart,
@@ -43,6 +45,29 @@ export default function CartPage() {
       setCouponInput("");
     }
   };
+
+  if (!isAuthenticated) {
+    return (
+      <div className="max-w-md mx-auto py-16 text-center space-y-6">
+        <div className="w-16 h-16 rounded-3xl bg-brand-50 text-brand-600 flex items-center justify-center mx-auto shadow-inner">
+          <ShoppingBag className="w-8 h-8" />
+        </div>
+        <div className="space-y-2">
+          <h2 className="text-2xl font-extrabold text-slate-900">Sign In Required</h2>
+          <p className="text-xs text-slate-500 max-w-sm mx-auto">
+            Please sign in with your student ID (23501a05xx@edukart.com) to view and manage your cart.
+          </p>
+        </div>
+        <Link
+          to="/auth"
+          state={{ from: { pathname: "/cart" } }}
+          className="inline-flex items-center gap-2 px-6 py-3 bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs rounded-xl shadow-md transition"
+        >
+          Sign In / Register <ArrowRight className="w-4 h-4" />
+        </Link>
+      </div>
+    );
+  }
 
   if (cart.length === 0) {
     return (
@@ -92,12 +117,12 @@ export default function CartPage() {
                 {/* Thumbnail */}
                 <Link
                   to={`/product/${product._id}`}
-                  className="w-20 h-20 rounded-xl overflow-hidden bg-slate-100 shrink-0 border border-slate-200/80"
+                  className="w-20 h-20 rounded-xl overflow-hidden bg-slate-50 shrink-0 border border-slate-200/80 flex items-center justify-center p-1.5"
                 >
                   <img
                     src={product.img}
                     alt={product.title}
-                    className="w-full h-full object-cover"
+                    className="max-h-full max-w-full object-contain"
                   />
                 </Link>
 

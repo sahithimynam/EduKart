@@ -62,12 +62,19 @@ export default function AuthPage() {
           <GraduationCap className="w-7 h-7" />
         </div>
         <h1 className="text-2xl font-black text-slate-900 tracking-tight">
-          {isLogin ? "Welcome Back to Edukart" : "Create Your Student Account"}
+          {isLogin ? "Welcome Back to EduKart" : "Create Your Student Account"}
         </h1>
         <p className="text-xs text-slate-500">
-          Access your courses, track textbook orders, and explore engineering kits.
+          College Student Portal • Roll Numbers 23501A0501 to 23501A05J3
         </p>
       </div>
+
+      {location.state?.message && (
+        <div className="p-3.5 rounded-2xl bg-amber-50 border border-amber-200 text-amber-800 text-xs font-semibold flex items-center gap-2">
+          <span>🔒</span>
+          <span>{location.state.message}</span>
+        </div>
+      )}
 
       {/* 1-Click Quick Demo Login Card */}
       <div className="p-4 rounded-2xl bg-gradient-to-r from-brand-50 to-indigo-50 border border-brand-200/80 space-y-3">
@@ -76,7 +83,7 @@ export default function AuthPage() {
           <span>Quick Evaluation Demo Access</span>
         </div>
         <p className="text-[11px] text-slate-600 leading-snug">
-          Testing this project? Use our 1-click test profiles with pre-seeded data:
+          Login with any college ID <span className="font-mono font-bold text-brand-700">23501a05xx@edukart.com</span> (01–99, A0–A9, ... to J3) with password <span className="font-mono font-bold text-brand-700">student123</span>:
         </p>
         <div className="grid grid-cols-2 gap-2">
           <button
@@ -85,7 +92,7 @@ export default function AuthPage() {
             disabled={loading}
             className="py-2 px-3 rounded-xl bg-white hover:bg-brand-50 border border-brand-300 text-brand-700 text-xs font-bold shadow-2xs hover:shadow-xs transition flex items-center justify-center gap-1.5"
           >
-            🎓 Demo Student
+            🎓 Demo Student (0501)
           </button>
           <button
             type="button"
@@ -148,28 +155,37 @@ export default function AuthPage() {
           )}
 
           <div className="space-y-1">
-            <label className="font-semibold text-slate-700">Email Address</label>
+            <div className="flex items-center justify-between">
+              <label className="font-semibold text-slate-700">Student Email Address</label>
+              <span className="text-[10px] text-slate-400">23501a05xx@edukart.com</span>
+            </div>
             <div className="relative">
               <Mail className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
               <input
                 type="email"
                 required
-                placeholder="student@edukart.com"
+                placeholder="23501a0501@edukart.com"
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-hidden focus:border-brand-500"
+                className="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-hidden focus:border-brand-500 font-mono text-xs"
               />
             </div>
+            <p className="text-[10px] text-slate-400">
+              Valid roll range: 01–99, A0–A9, B0–B9 ... up to J3 (or admin@edukart.com)
+            </p>
           </div>
 
           <div className="space-y-1">
-            <label className="font-semibold text-slate-700">Password</label>
+            <div className="flex items-center justify-between">
+              <label className="font-semibold text-slate-700">Password</label>
+              {isLogin && <span className="text-[10px] text-brand-600 font-semibold">Default: student123</span>}
+            </div>
             <div className="relative">
               <Lock className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
               <input
                 type="password"
                 required
-                placeholder="••••••••"
+                placeholder="student123"
                 value={formData.password}
                 onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                 className="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-hidden focus:border-brand-500"
