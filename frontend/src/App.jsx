@@ -5,7 +5,6 @@ import { CartProvider } from "./context/CartContext";
 
 // Components
 import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 // Pages
@@ -84,8 +83,6 @@ export default function App() {
                 />
               </Routes>
             </main>
-
-            <Footer />
           </div>
         </CartProvider>
       </AuthProvider>
