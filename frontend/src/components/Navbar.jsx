@@ -185,29 +185,10 @@ export default function Navbar({ searchQuery, setSearchQuery }) {
               <div className="flex items-center gap-2">
                 <Link
                   to="/auth"
-                  className="text-xs sm:text-sm font-semibold text-slate-700 hover:text-brand-600 px-3 py-1.5 rounded-lg hover:bg-slate-100 transition"
+                  className="text-xs sm:text-sm font-bold text-white bg-brand-600 hover:bg-brand-700 px-4 py-2 rounded-xl shadow-xs transition"
                 >
                   Sign In
                 </Link>
-
-                {/* Quick 1-Click Demo Button */}
-                <div className="hidden sm:flex items-center gap-1.5">
-                  <button
-                    onClick={() => handleQuickDemo("user")}
-                    className="flex items-center gap-1 text-xs font-semibold px-2.5 py-1.5 bg-brand-50 hover:bg-brand-100 text-brand-700 rounded-lg border border-brand-200 transition"
-                    title="1-Click Login as Demo Student (23501a0501)"
-                  >
-                    <Sparkles className="w-3.5 h-3.5 text-brand-600" />
-                    Demo Student (0501)
-                  </button>
-                  <button
-                    onClick={() => handleQuickDemo("admin")}
-                    className="flex items-center gap-1 text-xs font-semibold px-2.5 py-1.5 bg-purple-50 hover:bg-purple-100 text-purple-700 rounded-lg border border-purple-200 transition"
-                    title="1-Click Login as Demo Admin"
-                  >
-                    Admin
-                  </button>
-                </div>
               </div>
             )}
 
