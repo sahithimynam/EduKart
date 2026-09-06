@@ -14,13 +14,30 @@ import orderRoutes from "./routes/orders.routes.js";
 import wishlistRoutes from "./routes/wishlist.routes.js";
 import statsRoutes from "./routes/stats.routes.js";
 
+import Product from "./models/Product.js";
+import { seedDatabase } from "./scripts/seed.js";
+
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Connect to MongoDB
-connectDB(process.env.MONGODB_URI);
+// Connect to MongoDB and auto-seed if empty
+connectDB(process.env.MONGODB_URI)
+  .then(async () => {
+    try {
+      const count = await Product.countDocuments();
+      if (count === 0) {
+        console.log("🌱 Fresh database detected. Automatically seeding initial catalog...");
+        await seedDatabase();
+      }
+    } catch (err) {
+      console.error("Auto-seed catalog check:", err.message);
+    }
+  })
+  .catch((err) => {
+    console.error("Database connection initialization error:", err.message);
+  });
 
 // CORS configuration supporting Vite dev server & production
 app.use(
