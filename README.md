@@ -67,7 +67,6 @@ npm run seed
 npm run build
 npm start
 ```
-Visit **[http://localhost:5000](http://localhost:5000)** in your browser!
 
 ---
 
