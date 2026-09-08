@@ -1,4 +1,4 @@
-const API_BASE = "/api";
+const API_BASE = "https://edukart-z4vv.onrender.com/api";
 
 async function request(endpoint, options = {}) {
   const token = localStorage.getItem("edukart_token");
