@@ -3,7 +3,7 @@
 > **Fullstack MERN Application (MongoDB • Express.js • React.js • Node.js)**  
 > Developed by **[Sahithi Mynam](https://github.com/sahithimynam)**
 
-EduKart is a high-performance educational e-commerce web platform engineered for engineering students and academics. It features a curated 25-item catalog across 5 specialized categories, roll-number-based student authentication, cart and wishlist management, and a unified full-stack architecture.
+EduKart is a high-performance educational e-commerce web platform engineered for engineering students and academics. It features a curated 25-item catalog across 5 specialized categories, secure JWT-based user authentication, cart and wishlist management...
 
 ---
 
@@ -16,16 +16,28 @@ EduKart is a high-performance educational e-commerce web platform engineered for
   3. **Electronics**: Scientific Calculator, Wireless Mouse, Keyboard, USB Flash Drive, Laptop Stand.
   4. **Study Accessories**: Study Lamp, Backpack, Desk Organizer, Water Bottle, Headphones.
   5. **Exam Preparation**: GATE CSE Preparation Book, CAT Preparation Guide, GRE Study Material, UPSC Preparation Book, Aptitude & Reasoning Book.
-- **College Student Roll Number Authentication**:
-  - Valid Email Format: `23501a05xx@edukart.com`
-  - Permitted Roll Ranges: `01` to `99`, `A0` to `A9`, `B0` to `B9`, ... up to `J3`.
-  - Default Password: `student123`
-  - Instant Auto-Provisioning on sign-in.
+- **Secure User Authentication**:
+  - User Registration (Sign Up)
+  - User Login (Sign In)
+  - Password Hashing using bcrypt
+  - JWT Token-Based Authentication
+  - Protected Routes for Cart, Wishlist and Orders.
 - **Protected E-Commerce Workflow**:
-  - Wishlist and Cart operations strictly require student authentication before adding or saving items.
-  - Streamlined, minimalist Sign In form with email and password.
+  - Wishlist, Cart, and Order operations require authenticated user access.
+  - Responsive Sign Up and Sign In interfaces with form validation and secure authentication.
 - **Unified Full-Stack Deployment**:
   - Express serves both API endpoints and the compiled React production bundle, enabling single-service hosting on cloud platforms like Render or Railway.
+
+---
+
+## 🔐 Authentication Features
+
+- User Registration (Sign Up)
+- User Login (Sign In)
+- JWT Authentication
+- Password Hashing using bcrypt
+- Protected Routes
+- Persistent User Sessions
 
 ---
 
@@ -101,4 +113,5 @@ GitHub: [@sahithimynam](https://github.com/sahithimynam)
 This project is open source and available under the [MIT License](LICENSE).
 
 ##Live Demo
+
 https://edukart-1.onrender.com/
