@@ -54,11 +54,10 @@ export async function register(req, res, next) {
 
     const cleanEmail = email.toLowerCase().trim();
 
-    // Check allowed email pattern
-    if (!isValidStudentEmail(cleanEmail) && cleanEmail !== "admin@edukart.com") {
-      return res.status(400).json({
-        message: "Registration is restricted to college students with email format 23501a05xx@edukart.com (xx: 01-99, A0-A9, ... J3)."
-      });
+    // Standard email format validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(cleanEmail)) {
+      return res.status(400).json({ message: "Please provide a valid email address." });
     }
 
     const existing = await User.findOne({ email: cleanEmail });
@@ -109,19 +108,12 @@ export async function login(req, res, next) {
 
     const cleanEmail = email.toLowerCase().trim();
     const isStudent = isValidStudentEmail(cleanEmail);
-    const isAdmin = cleanEmail === "admin@edukart.com";
-
-    if (!isStudent && !isAdmin) {
-      return res.status(403).json({
-        message: "Access restricted: Only college emails (23501a05xx@edukart.com where xx is 01-99, A0-A9, ... J3) or admin can log in."
-      });
-    }
 
     let user = await User.findOne({ email: cleanEmail });
 
     if (!user) {
+      // Backward compatibility for demo student accounts
       if (isStudent && password === "student123") {
-        // Automatically create account for student with default password student123
         const rollCode = cleanEmail.split("@")[0].toUpperCase();
         const hash = await bcrypt.hash("student123", 10);
         user = await User.create({
@@ -134,20 +126,18 @@ export async function login(req, res, next) {
           pincode: "500001",
           phone: "+91 98765 00000"
         });
-      } else if (isStudent) {
-        return res.status(401).json({ message: "Incorrect password. Default password is student123" });
       } else {
-        return res.status(404).json({ message: "Admin account not found." });
+        return res.status(401).json({ message: "Invalid email or password." });
       }
     } else {
       // User exists
       const isMatch = await bcrypt.compare(password, user.password);
       if (!isMatch) {
-        // Also permit default password student123 for students
+        // Backward compatibility fallback for demo student accounts
         if (isStudent && password === "student123") {
           // OK
         } else {
-          return res.status(401).json({ message: "Incorrect password. Default password is student123" });
+          return res.status(401).json({ message: "Invalid email or password." });
         }
       }
     }

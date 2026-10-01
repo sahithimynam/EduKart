@@ -4,30 +4,51 @@ import { GraduationCap, Mail, Lock, User } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 
 export default function AuthPage() {
-  const [isLogin, setIsLogin] = useState(true);
+  const location = useLocation();
+  const [isLogin, setIsLogin] = useState(location.pathname !== "/signup");
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    password: ""
+    password: "",
+    confirmPassword: ""
   });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
   const { login, register } = useAuth();
   const navigate = useNavigate();
-  const location = useLocation();
   const from = location.state?.from?.pathname || "/";
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
+
+    if (!isLogin) {
+      if (!formData.name.trim()) {
+        setError("Full Name is required.");
+        return;
+      }
+      if (formData.password.length < 6) {
+        setError("Password must be at least 6 characters long.");
+        return;
+      }
+      if (formData.password !== formData.confirmPassword) {
+        setError("Passwords do not match.");
+        return;
+      }
+    }
+
     setLoading(true);
 
     try {
       if (isLogin) {
         await login(formData.email, formData.password);
       } else {
-        await register(formData);
+        await register({
+          name: formData.name,
+          email: formData.email,
+          password: formData.password
+        });
       }
       navigate(from, { replace: true });
     } catch (err) {
@@ -56,10 +77,10 @@ export default function AuthPage() {
         </div>
       )}
 
-      {/* Main Sign In Card */}
+      {/* Main Card */}
       <div className="bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-8 shadow-xs space-y-5">
         <h2 className="text-lg font-bold text-slate-900 text-center">
-          {isLogin ? "Sign In" : "Register"}
+          {isLogin ? "Sign In" : "Sign Up"}
         </h2>
 
         {error && (
@@ -116,12 +137,29 @@ export default function AuthPage() {
             </div>
           </div>
 
+          {!isLogin && (
+            <div className="space-y-1.5">
+              <label className="font-semibold text-slate-700 text-sm">Confirm Password</label>
+              <div className="relative">
+                <Lock className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
+                <input
+                  type="password"
+                  required
+                  placeholder="Re-enter your password"
+                  value={formData.confirmPassword}
+                  onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
+                  className="w-full pl-10 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-hidden focus:border-brand-500 text-sm"
+                />
+              </div>
+            </div>
+          )}
+
           <button
             type="submit"
             disabled={loading}
             className="w-full py-3 px-4 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-bold text-sm shadow-md shadow-brand-500/20 transition disabled:opacity-50 mt-2"
           >
-            {loading ? "Please wait..." : isLogin ? "Sign In" : "Register"}
+            {loading ? "Please wait..." : isLogin ? "Sign In" : "Sign Up"}
           </button>
         </form>
 
@@ -135,7 +173,7 @@ export default function AuthPage() {
             className="text-xs text-slate-500 hover:text-brand-600 font-medium transition"
           >
             {isLogin
-              ? "Don't have an account? Register"
+              ? "Don't have an account? Sign Up"
               : "Already have an account? Sign In"}
           </button>
         </div>

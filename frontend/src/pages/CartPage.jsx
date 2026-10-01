@@ -55,7 +55,7 @@ export default function CartPage() {
         <div className="space-y-2">
           <h2 className="text-2xl font-extrabold text-slate-900">Sign In Required</h2>
           <p className="text-xs text-slate-500 max-w-sm mx-auto">
-            Please sign in with your student ID (23501a05xx@edukart.com) to view and manage your cart.
+            Please sign in to your EduKart account to view and manage your cart.
           </p>
         </div>
         <Link

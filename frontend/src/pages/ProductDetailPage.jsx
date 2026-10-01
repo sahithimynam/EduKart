@@ -75,7 +75,7 @@ export default function ProductDetailPage() {
       navigate("/auth", {
         state: {
           from: { pathname: `/product/${product._id}` },
-          message: "Please sign in with your student ID (23501a05xx@edukart.com) to add items to your cart"
+          message: "Please sign in to add items to your cart"
         }
       });
       return;
@@ -90,7 +90,7 @@ export default function ProductDetailPage() {
       navigate("/auth", {
         state: {
           from: { pathname: `/product/${product._id}` },
-          message: "Please sign in with your student ID (23501a05xx@edukart.com) to checkout"
+          message: "Please sign in to checkout"
         }
       });
       return;
@@ -104,7 +104,7 @@ export default function ProductDetailPage() {
       navigate("/auth", {
         state: {
           from: { pathname: `/product/${product._id}` },
-          message: "Please sign in with your student ID (23501a05xx@edukart.com) to save items to your wishlist"
+          message: "Please sign in to save items to your wishlist"
         }
       });
       return;

@@ -16,7 +16,7 @@ export default function WishlistPage() {
         </div>
         <h3 className="text-lg font-bold text-slate-900">Sign In Required</h3>
         <p className="text-xs text-slate-500 leading-relaxed">
-          Please sign in with your student ID (23501a05xx@edukart.com) to save and view items in your wishlist.
+          Please sign in to your EduKart account to save and view items in your wishlist.
         </p>
         <Link
           to="/auth"

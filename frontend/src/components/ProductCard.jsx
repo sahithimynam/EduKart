@@ -19,7 +19,7 @@ export default function ProductCard({ product }) {
       navigate("/auth", {
         state: {
           from: { pathname: "/" },
-          message: "Please sign in with your student ID (23501a05xx@edukart.com) to add items to your cart"
+          message: "Please sign in to add items to your cart"
         }
       });
       return;
@@ -36,7 +36,7 @@ export default function ProductCard({ product }) {
       navigate("/auth", {
         state: {
           from: { pathname: "/" },
-          message: "Please sign in with your student ID (23501a05xx@edukart.com) to save items to your wishlist"
+          message: "Please sign in to save items to your wishlist"
         }
       });
       return;

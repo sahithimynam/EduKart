@@ -83,7 +83,7 @@ export default function Navbar({ searchQuery, setSearchQuery }) {
             {/* Wishlist Link */}
             <Link
               to={isAuthenticated ? "/wishlist" : "/auth"}
-              state={!isAuthenticated ? { from: { pathname: "/wishlist" }, message: "Please sign in with your student ID (23501a05xx@edukart.com) to view your saved wishlist" } : undefined}
+              state={!isAuthenticated ? { from: { pathname: "/wishlist" }, message: "Please sign in to view your saved wishlist" } : undefined}
               className="relative p-2 rounded-lg text-slate-600 hover:text-brand-600 hover:bg-slate-100 transition"
               title="My Wishlist"
             >
@@ -98,7 +98,7 @@ export default function Navbar({ searchQuery, setSearchQuery }) {
             {/* Cart Link */}
             <Link
               to={isAuthenticated ? "/cart" : "/auth"}
-              state={!isAuthenticated ? { from: { pathname: "/cart" }, message: "Please sign in with your student ID (23501a05xx@edukart.com) to access your shopping cart" } : undefined}
+              state={!isAuthenticated ? { from: { pathname: "/cart" }, message: "Please sign in to access your shopping cart" } : undefined}
               className="relative flex items-center gap-2 p-2 sm:px-3 sm:py-2 rounded-lg text-slate-600 hover:text-brand-600 hover:bg-slate-100 transition font-medium text-sm"
               title="Shopping Cart"
             >
@@ -182,12 +182,18 @@ export default function Navbar({ searchQuery, setSearchQuery }) {
                 )}
               </div>
             ) : (
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-1.5 sm:gap-2">
                 <Link
-                  to="/auth"
-                  className="text-xs sm:text-sm font-bold text-white bg-brand-600 hover:bg-brand-700 px-4 py-2 rounded-xl shadow-xs transition"
+                  to="/login"
+                  className="text-xs sm:text-sm font-semibold text-slate-700 hover:text-brand-600 px-2.5 sm:px-3 py-2 rounded-xl hover:bg-slate-100 transition"
                 >
                   Sign In
+                </Link>
+                <Link
+                  to="/signup"
+                  className="text-xs sm:text-sm font-bold text-white bg-brand-600 hover:bg-brand-700 px-3.5 sm:px-4 py-2 rounded-xl shadow-xs transition"
+                >
+                  Sign Up
                 </Link>
               </div>
             )}
